@@ -1,23 +1,23 @@
 package com.example.todo.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 @Entity
 @Table( name = "todolist")
-public class ToDo implements Serializable {
+public class ToDo {
     @Id
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     @Column(columnDefinition = "text")
     @NotBlank
     private String item;
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
