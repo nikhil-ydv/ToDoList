@@ -39,7 +39,8 @@ public class ToDoService {
             return ResponseEntity.ok().build();
         }
         else
-            return ResponseEntity.notFound().build();
+//            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok().build();
     }
 
 
