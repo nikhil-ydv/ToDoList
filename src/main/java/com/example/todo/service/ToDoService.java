@@ -25,22 +25,23 @@ public class ToDoService {
     }
 
     //add new item
-    public String createItem(ToDo toDo) {
+    //Response entity created("URI"???)
+    public void createItem(ToDo toDo) {
         todorepository.save(toDo);
-        return "ToDo Item inserted successfully";
     }
 
+
     //update by id
-    public ResponseEntity<?> updateItem(long id, ToDo updatedItem) {
-        if(todorepository.existsById(id)) {
+    public ToDo updateItem(long id, ToDo updatedItem) {
             ToDo toDo = todorepository.findById(id);
             toDo.setItem(updatedItem.getItem());
             ToDo newSavedItem = todorepository.save(toDo);
-            return ResponseEntity.ok().build();
-        }
-        else
-//            return ResponseEntity.notFound().build();
-        return ResponseEntity.ok().build();
+            return newSavedItem;
+    }
+
+    //delete by id
+    public void deleteItemById(long id) {
+            todorepository.deleteById(id);
     }
 
 
