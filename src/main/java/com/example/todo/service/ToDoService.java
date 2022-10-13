@@ -44,5 +44,14 @@ public class ToDoService {
             todorepository.deleteById(id);
     }
 
+    //function to check if the item exists by id or not
+    public boolean itemExists(long id) {
+        if(todorepository.existsById(id)) {
+            return true;
+        }
+        else
+            return false;
+    }
+
 
 }

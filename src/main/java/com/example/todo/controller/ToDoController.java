@@ -21,26 +21,41 @@ public class ToDoController {
 
     @GetMapping("/allItems/{id}")
     ResponseEntity<ToDo> getItemById(@PathVariable(value = "id") long itemId ) {
+        if(toDoService.itemExists(itemId)) {
+            return ResponseEntity.ok(toDoService.itemById(itemId));
+        }
+        return ResponseEntity.notFound().build();
 
-        return ResponseEntity.ok(toDoService.itemById(itemId));
     }
 
     @PostMapping("/newItem")
     public ResponseEntity<?> createItem(@RequestBody ToDo toDo) {
-        toDoService.createItem(toDo);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        long itemId = toDo.getId();
+        if(toDoService.itemExists(itemId) == false) {
+            toDoService.createItem(toDo);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+        else
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
     @PutMapping("/updateItem/{id}")
     public ResponseEntity<ToDo> updateItem(@PathVariable(value = "id") long id, @RequestBody ToDo updatedItem) {
-        toDoService.updateItem(id, updatedItem);
-        return ResponseEntity.ok().build();
+        if(toDoService.itemExists(id)) {
+            toDoService.updateItem(id, updatedItem);
+            return ResponseEntity.ok().build();
+        }
+        else
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
     @DeleteMapping("/deleteItem/{id}")
     public ResponseEntity<?> deleteItemById(@PathVariable(value = "id") long id) {
-        toDoService.deleteItemById(id);
-        return ResponseEntity.ok().build();
+        if(toDoService.itemExists(id)) {
+            toDoService.deleteItemById(id);
+            return ResponseEntity.ok().build();
+        }
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
 }
